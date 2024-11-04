@@ -1,0 +1,34 @@
+datasource db {
+    provider = "postgresql"
+    url      = "postgresql://postgres:mysecret@localhost:5432/postgres?schema=public"
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["views", "postgresqlExtensions", "relationJoins", "metrics"]
+}
+
+model User {
+    id            String   @id @db.Uuid
+    created_at    DateTime @default(now())
+    email         String   @unique
+    password      String
+    first_name    String
+    last_name     String
+    date_of_birth DateTime
+    address       String
+    phone         String
+    role          Role     @default(USER)
+}
+
+model Product {
+    id              String @id @db.Uuid
+    name            String
+    price           Int
+    inventory_count Int
+}
+
+enum Role {
+    USER
+    ADMIN
+}
